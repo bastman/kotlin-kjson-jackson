@@ -1,21 +1,31 @@
 package com.bastman.kjson.jackson.examples
 
-import com.bastman.kjson.jackson.Json
-import com.bastman.kjson.jackson.JsonJmesPath
-import com.bastman.kjson.jackson.loadResource
-import com.bastman.kjson.jackson.loadResourceText
-import com.fasterxml.jackson.databind.ObjectMapper
-
+import com.bastman.kjson.jackson.*
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import java.time.Instant
 
-val JSON = Json.relaxed()
-val JQ = JsonJmesPath(JSON.mapper)
+fun JsonBuilder.relaxed() = withDeserializationFeatureConfig(
+        DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false
+)
 
-fun Any?.toJson() = JSON.encode(this)
-fun Any?.toJson(mapper: ObjectMapper) = JSON.withMapper(mapper).encode(this)
+val JSON = JsonBuilder
+        .default()
+        .withModules(
+                JavaTimeModule(),
+                Jdk8Module(),
+                ParameterNamesModule()
+        )
+        .relaxed()
+        .build()
+
+val JQ = JsonJmesPath(JSON)
+
+fun Any?.toJson(json: Json=JSON) = json.encode(this)
 
 data class MyDto(val foo: String, val t: Instant)
-
 data class JqTestCase(val resource: String, val query: String)
 
 fun main(args: Array<String>) {

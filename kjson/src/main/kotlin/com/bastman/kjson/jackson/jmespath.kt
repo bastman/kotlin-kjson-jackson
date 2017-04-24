@@ -1,14 +1,12 @@
 package com.bastman.kjson.jackson
 
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.burt.jmespath.Expression
 import io.burt.jmespath.JmesPath
 import io.burt.jmespath.jackson.JacksonRuntime
 
 class JsonJmesPath(
-        val mapper: ObjectMapper,
+        val json: Json,
         val runtime: JmesPath<JsonNode> = JACKSON_RUNTIME
 ) {
 
@@ -18,33 +16,29 @@ class JsonJmesPath(
 
     fun compile(query: String): Expression<JsonNode> = runtime.compile(query)
 
-    fun search(content: String, expression: Expression<JsonNode>): JsonNode = expression.search(
-            mapper.readTree(content)
+    fun search(content: String, expression: Expression<JsonNode>, codec: Json = json): JsonNode = expression.search(
+            codec.decodeTree(content)
     )
 
-    fun search(content: String, query: String): JsonNode {
+    fun search(content: String, query: String, codec: Json = json): JsonNode {
         val expression = compile(query = query)
 
-        return search(content = content, expression = expression)
+        return search(content = content, expression = expression, codec = codec)
     }
 
-    inline fun <reified T> query(content: String, query: String, encoder: ObjectMapper = mapper): T {
+    inline fun <reified T> query(content: String, query: String, codec: Json = json): T {
         val expression = compile(query = query)
 
-        val resultNode = search(content = content, expression = expression)
-        val resultJson = jsonEncode(data = resultNode, mapper = encoder)
+        val resultNode = search(content = content, expression = expression, codec = codec)
+        val resultJson = codec.encode(resultNode)
 
-        return jsonDecode(json = resultJson, mapper = mapper)
+        return codec.decode(content = resultJson)
     }
 
 
-    inline fun <reified T> jsonDecode(json: String, mapper: ObjectMapper): T = mapper.readValue(json, object : TypeReference<T>() {})
-    inline fun <reified T> jsonDecode(json: String): T = jsonDecode(json = json, mapper = mapper)
+    inline fun <reified T> jsonDecode(content: String, codec: Json = json): T = codec.decode(content)
+    fun <T> jsonDecode(content: String, valueType: Class<T>, codec: Json = json): T = codec.decode(content, valueType)
 
-    fun <T> jsonDecode(json: String, valueType: Class<T>, mapper: ObjectMapper): T = mapper.readValue(json, valueType)
-    fun <T> jsonDecode(json: String, valueType: Class<T>): T = jsonDecode(json = json, valueType = valueType, mapper = mapper)
-
-    fun jsonEncode(data: Any?, mapper: ObjectMapper): String = mapper.writeValueAsString(data)
-    fun jsonEncode(data: Any?): String = jsonEncode(data = data, mapper = mapper)
+    fun jsonEncode(data: Any?, codec: Json = json): String = codec.encode(data)
 
 }
