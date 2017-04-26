@@ -1,6 +1,7 @@
-package com.bastman.kjson.jackson
+package com.bastman.kjson.jackson.fs
 
 
+import com.bastman.kjson.jackson.codec.Json
 import java.net.URI
 import java.net.URL
 import java.nio.charset.Charset

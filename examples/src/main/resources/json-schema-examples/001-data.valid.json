@@ -1,0 +1,24 @@
+{
+  "observations": [
+    {
+      "deviceId": "101",
+      "location": [
+        -100.25,
+        23.283333
+      ],
+      "observedAt": "2017-03-10T15:00:00+08:00",
+      "observedPeriod": "PT0S",
+      "temperature": 21.3
+    },
+    {
+      "deviceId": "102",
+      "location": [
+        -27.12,
+        21.7
+      ],
+      "observedAt": "2017-03-10T16:00:00+08:00",
+      "observedPeriod": "PT0S",
+      "humidity": 77.3
+    }
+  ]
+}

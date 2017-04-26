@@ -1,4 +1,4 @@
-package com.bastman.kjson.jackson
+package com.bastman.kjson.jackson.codec
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser

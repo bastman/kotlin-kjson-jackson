@@ -2,12 +2,7 @@
 dependencies {
     // jackson
     compile("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-    compile("com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion")
-    // jackson: java8
-    compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
-    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr353:$jacksonVersion")
 
-    // jmespath
-    compile("io.burt:jmespath-jackson:$jmesPathVersion")
+
+
 }

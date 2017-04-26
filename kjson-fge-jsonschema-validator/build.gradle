@@ -1,12 +1,13 @@
-
 dependencies {
-    compile project(':kjson')
-    compile project(':kjson-fge-jsonschema-validator')
-    compile project(':kjson-burt-jmespath')
-
-    // jackson: java8
+    // jackson
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     compile("com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion")
+    // jackson: java8
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr353:$jacksonVersion")
+
+
+    // json-schema-validator
+    compile("com.github.fge:json-schema-validator:$jsonSchemaValidatorVersion")
 }

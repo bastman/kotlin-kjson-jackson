@@ -1,5 +1,6 @@
-package com.bastman.kjson.jackson
+package com.bastman.kson.jackson.burt.jmespath
 
+import com.bastman.kjson.jackson.codec.Json
 import com.fasterxml.jackson.databind.JsonNode
 import io.burt.jmespath.Expression
 import io.burt.jmespath.JmesPath
@@ -34,11 +35,5 @@ class JsonJmesPath(
 
         return codec.decode(content = resultJson)
     }
-
-
-    inline fun <reified T> jsonDecode(content: String, codec: Json = json): T = codec.decode(content)
-    fun <T> jsonDecode(content: String, valueType: Class<T>, codec: Json = json): T = codec.decode(content, valueType)
-
-    fun jsonEncode(data: Any?, codec: Json = json): String = codec.encode(data)
-
 }
+

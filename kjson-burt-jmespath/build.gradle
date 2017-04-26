@@ -1,0 +1,6 @@
+dependencies {
+    compile project(':kjson')
+
+    // jmespath
+    compile("io.burt:jmespath-jackson:$jmesPathVersion")
+}
